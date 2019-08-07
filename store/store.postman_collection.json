@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "ac095ec9-64a3-48fd-990f-42360225f7e9",
+		"name": "store",
+		"description": "# Introdução\nBem-vindo ao guia de referências da API! Através desta api será possível cadastrar produtos, transacionar e acompanhar as vendas\n\nTodas as respostas da api são em JSON. Esse é o endpoint base:\nhttp://localhost/store/api/v1\n\n# Autenticação\nTodos os endpoints da Api são privados.A autenticação deverá ser realizada utilizando jwt. Utilize a chave que se encontra na variável de ambiente.\n\n# Códigos de Resposta\n\n200\n\nTudo ocorreu como deveria e a requisição foi processada com sucesso.\n\n400\n\nAlgum parâmetro obrigatório não foi passado, ou os parâmetros passados não estão corretos.\n\n401\n\nFalta de autorização para acessar este endpoint.\n\n404\n\nEndpoint não encontrado, revise a URL passada.\n\n500\n\nErro interno, tente novamente mais tarde.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Produtos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/product",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"product"
+					]
+				},
+				"description": "Retorna uma lista de produtos no formato JSON"
+			},
+			"response": []
+		},
+		{
+			"name": "Inserir Produto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "artist",
+							"value": "Pink Floyd",
+							"description": "Nome do Artista",
+							"type": "text"
+						},
+						{
+							"key": "product_id",
+							"value": "569c30dc-6bdb-407a-b18b-3794f9b206a2",
+							"description": "Identificador do produto",
+							"type": "text"
+						},
+						{
+							"key": "year",
+							"value": "2019",
+							"description": "Ano do produto",
+							"type": "text"
+						},
+						{
+							"key": "album",
+							"value": "Dask Side of The Moon",
+							"description": "Nome do Album",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "100",
+							"description": "Preço",
+							"type": "text"
+						},
+						{
+							"key": "store",
+							"value": "Minha Loja de Discos",
+							"description": "loja",
+							"type": "text"
+						},
+						{
+							"key": "thumb",
+							"value": "https://images-na.ssl-images-amazon.com/images/I/61R7gJadP7L._SX355_.jpg",
+							"description": "Imagem do Produto",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "02/02/2019",
+							"description": "Data de Lançamento do produto",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/product",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"product"
+					]
+				},
+				"description": "Esse método salva um novo produto no banco de dados"
+			},
+			"response": []
+		},
+		{
+			"name": "Adicionar Item Carrinho",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "fac3591c-9785-11e9-bc42-526af7764f64",
+							"description": "Identificador do cliente",
+							"type": "text"
+						},
+						{
+							"key": "cart_id",
+							"value": "569c30dc-6bdb-407a-b18b-3794f9b206a1",
+							"description": "Identificador do carrinho de compras",
+							"type": "text"
+						},
+						{
+							"key": "product_id",
+							"value": "569c30dc-6bdb-407a-b18b-3794f9b206a2",
+							"description": "Identificador do Produto",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "12/12/2019",
+							"description": "Data em que o produto foi adicionado ao carrinho",
+							"type": "text"
+						},
+						{
+							"key": "time",
+							"value": "12:00:00",
+							"description": "horário em que o produto foi adicionado ao carrinho",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/add_to_cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"add_to_cart"
+					]
+				},
+				"description": "Esse método adiciona um item ao carrinho"
+			},
+			"response": []
+		},
+		{
+			"name": "Finalizar Compra",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"client_id\":\"444\",\r\n\t\"client_name\":\"Rafael\",\r\n\t\"cart_id\":\"teste\",\r\n\t\"total_to_pay\":\"10\",\r\n\t\"credit_card\":{\r\n\t\t\"card_number\":\"1234\",\r\n\t\t\"card_holder_name\":\"teste\",\r\n\t\t\"cvv\":\"111\",\r\n\t\t\"exp_date\":\"02/19\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/buy",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"buy"
+					]
+				},
+				"description": "Esse método realiza a finalização da compra"
+			},
+			"response": []
+		},
+		{
+			"name": "Histórico de Compras",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/history",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"history"
+					]
+				},
+				"description": "Esse método lista todas as compras realizadas"
+			},
+			"response": []
+		},
+		{
+			"name": "Histórico de Compras - Filtro",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/history/444",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"history",
+						"444"
+					]
+				},
+				"description": "Esse método lista todas as compras realizadas"
+			},
+			"response": []
+		}
+	]
+}
