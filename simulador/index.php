@@ -1,205 +1,220 @@
-<?php
+<!DOCTYPE html>
+<html>
 
-/*
- *---------------------------------------------------------------
- * APPLICATION ENVIRONMENT
- *---------------------------------------------------------------
- *
- * You can load different configurations depending on your
- * current environment. Setting the environment also influences
- * things like logging and error reporting.
- *
- * This can be set to anything, but default usage is:
- *
- *     development
- *     testing
- *     production
- *
- * NOTE: If you change these, also change the error_reporting() code below
- *
- */
-	define('ENVIRONMENT', 'development');
-/*
- *---------------------------------------------------------------
- * ERROR REPORTING
- *---------------------------------------------------------------
- *
- * Different environments will require different levels of error reporting.
- * By default development will show errors but testing and live will hide them.
- */
-
-if (defined('ENVIRONMENT'))
-{
-	switch (ENVIRONMENT)
-	{
-		case 'development':
-			error_reporting(E_ALL);
-		break;
-
-		case 'testing':
-		case 'production':
-			error_reporting(0);
-		break;
-
-		default:
-			exit('The application environment is not set correctly.');
-	}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
+  <meta name="author" content="Creative Tim">
+  <title>Gerador de Links</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style>
+  .icone{
+    padding:20px;
+  }
+    html, 
+body {
+    height: 100%;
+    background-color:#0dc2ee;
 }
+  </style>
+</head>
 
-/*
- *---------------------------------------------------------------
- * SYSTEM FOLDER NAME
- *---------------------------------------------------------------
- *
- * This variable must contain the name of your "system" folder.
- * Include the path if the folder is not in the same  directory
- * as this file.
- *
- */
-	$system_path = 'system';
+<body class="d-flex">
+  
+<div class="container-fluid" ng-app="app" ng-controller="controller">
+  <div class="row" style="padding: 20px 20px 20px 20px;color:white;">
+    <div class="col-md-12">
+      Carrinho: {{cart_id}}
+      <br>Cliente: {{client_id}}
+    </div>
+  </div>
+  <div class="row" style="padding: 20px 20px 20px 20px;color:white;">
+    <div class="col-md-6">
+      <h3>Produtos</h3>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <input type="text" placeholder="Identificador" ng-model="novo.product_id">
+        <button class="btn btn-success" ng-click="addProduto()" ng-disabled="!novo.product_id">Novo Produto</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table">
+            <tr>
+              <th>ID Produto</th>
+              <th>Artista</th>
+              <th>Preço</th>
+              <th>&nbsp;</th>
+            </tr>
+            <tr ng-repeat="produto in produtos">
+              <td>{{produto.product_id}}</td>
+              <td>{{produto.artist}}</td>
+              <td>{{produto.price}}</td>
+              <td><button class="btn btn-warning" ng-click="addCarrinho(produto)">Adicionar ao Carrinho</button></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+    </div>
+    <div class="col-md-6">
+      <h3>Carrinho</h3>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+        <button class="btn btn-success"  href="#" ng-click="finalizar()" ng-disabled="itensCarrinho.length <= 0">Finalizar Compra</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table">
+            <tr>
+              <th>ID Produto</th>
+              
+            </tr>
+            <tr ng-repeat="item in itensCarrinho">
+              <td>{{item.product_id}}</td>
+              
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3>Histórico de Compras</h3>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table">
+            <tr>
+              <th>ID Produto</th>
+              
+            </tr>
+            <tr ng-repeat="historico in historicos">
+              <td>{{historico.order_id}}</td>
+              
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
 
-/*
- *---------------------------------------------------------------
- * APPLICATION FOLDER NAME
- *---------------------------------------------------------------
- *
- * If you want this front controller to use a different "application"
- * folder then the default one you can set its name here. The folder
- * can also be renamed or relocated anywhere on your server.  If
- * you do, use a full server path. For more info please see the user guide:
- * http://codeigniter.com/user_guide/general/managing_apps.html
- *
- * NO TRAILING SLASH!
- *
- */
-	$application_folder = 'application';
+  <script src="<?php echo base_url(); ?>assets/js/mask.js"></script>  
+  <!-- Argon JS -->
+  <script type="text/javascript">
+      var app = angular.module("app", ['ui.mask']);
+    </script>
+    <script type="text/javascript">
+      
+      app.controller("controller", function ($scope, $http) {
+      $scope.tela = 'login';
+      $scope.baseUrl = '<?php echo base_url(); ?>index.php/home/';
+      $scope.cart_id = "569c30dc-6bdb-407a-b18b-3794f9b206a1" 
+      $scope.client_id = "4321-1234" 
+      $scope.client_nome = "Rafael Alves de Lima" 
+      $scope.itensCarrinho = [];
 
-/*
- * --------------------------------------------------------------------
- * DEFAULT CONTROLLER
- * --------------------------------------------------------------------
- *
- * Normally you will set your default controller in the routes.php file.
- * You can, however, force a custom routing by hard-coding a
- * specific controller class/function here.  For most applications, you
- * WILL NOT set your routing here, but it's an option for those
- * special instances where you might want to override the standard
- * routing in a specific front controller that shares a common CI installation.
- *
- * IMPORTANT:  If you set the routing here, NO OTHER controller will be
- * callable. In essence, this preference limits your application to ONE
- * specific controller.  Leave the function name blank if you need
- * to call functions dynamically via the URI.
- *
- * Un-comment the $routing array below to use this feature
- *
- */
-	// The directory name, relative to the "controllers" folder.  Leave blank
-	// if your controller is not in a sub-folder within the "controllers" folder
-	// $routing['directory'] = '';
+      $scope.getProdutos = function()
+      {
+        $http.get($scope.baseUrl+"getProdutos")
+          .success(function (data, status, headers, config) {
+            if (data.success) {
+              $scope.produtos = data.produtos;
+            } 
+          }
+        )
+        
+      };
+      $scope.getProdutos();
 
-	// The controller class file name.  Example:  Mycontroller
-	// $routing['controller'] = '';
+      $scope.finalizar = function()
+      {
+        $http.get($scope.baseUrl+"finalizar")
+          .success(function (data, status, headers, config) {
+            if (data.success) {
+              $scope.getItensCarrinho();
+              $scope.getHistorico();
+            } 
+          }
+        )
+        
+      };
 
-	// The controller function you wish to be called.
-	// $routing['function']	= '';
+      $scope.addCarrinho = function(item){
+        data = {};
+        data.client_id = $scope.client_id;
+        data.cart_id = $scope.cart_id;
+        data.product_id = item.product_id;
+        data.date = '12/07/2019';
+        data.time = '12:00:00';
+        $http.post($scope.baseUrl+"addCarrinho", data)
+          .success(function (data, status, headers, config) {
+            if (data.success) {
+              $scope.getItensCarrinho();
+            } 
+          }
+        )
+      };
+      $scope.addProduto = function(){
+        $http.post($scope.baseUrl+"addProduto", $scope.novo)
+          .success(function (data, status, headers, config) {
+            if (data.success) {
+              $scope.getProdutos();
+            } else{
+              alert(data.message);
+            }
+          }
+        )
+      };
 
+      
 
-/*
- * -------------------------------------------------------------------
- *  CUSTOM CONFIG VALUES
- * -------------------------------------------------------------------
- *
- * The $assign_to_config array below will be passed dynamically to the
- * config class when initialized. This allows you to set custom config
- * items or override any default config values found in the config.php file.
- * This can be handy as it permits you to share one application between
- * multiple front controller files, with each file containing different
- * config values.
- *
- * Un-comment the $assign_to_config array below to use this feature
- *
- */
-	// $assign_to_config['name_of_config_item'] = 'value of config item';
+      $scope.getHistorico = function()
+      {
+        $http.get($scope.baseUrl+"getHistorico/")
+          .success(function (data, status, headers, config) {
+            if (data.success) {
+              $scope.historicos = data.historico;
+            } 
+          }
+        )
+        
+      };
+      $scope.getHistorico();
 
+      $scope.getItensCarrinho = function()
+      {
+        $http.get($scope.baseUrl+"getItensCarrinho/" + $scope.cart_id)
+          .success(function (data, status, headers, config) {
+            if (data.success) {
+              $scope.itensCarrinho = data.itens;
+            } 
+          }
+        )
+        
+      };
+      $scope.getItensCarrinho();
+    });
 
+  function showalert(message, alerttype,elemento) {
+    $('#'+elemento).append('<div id="alertdiv" class="alert ' + alerttype + '"><a class="close" data-dismiss="alert">×</a><span>' + message.split("\n").join("<br>") + '</span></div>')
+    setTimeout(function () {
+      $('#alertdiv').fadeOut('slow');
+      $("#alertdiv").remove();
+    }, 3000);
+  }
+</script>
+</body>
 
-// --------------------------------------------------------------------
-// END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
-// --------------------------------------------------------------------
-
-/*
- * ---------------------------------------------------------------
- *  Resolve the system path for increased reliability
- * ---------------------------------------------------------------
- */
-
-	// Set the current directory correctly for CLI requests
-	if (defined('STDIN'))
-	{
-		chdir(dirname(__FILE__));
-	}
-
-	if (realpath($system_path) !== FALSE)
-	{
-		$system_path = realpath($system_path).'/';
-	}
-
-	// ensure there's a trailing slash
-	$system_path = rtrim($system_path, '/').'/';
-
-	// Is the system path correct?
-	if ( ! is_dir($system_path))
-	{
-		exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
-	}
-
-/*
- * -------------------------------------------------------------------
- *  Now that we know the path, set the main path constants
- * -------------------------------------------------------------------
- */
-	// The name of THIS file
-	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
-
-	// The PHP file extension
-	// this global constant is deprecated.
-	define('EXT', '.php');
-
-	// Path to the system folder
-	define('BASEPATH', str_replace("\\", "/", $system_path));
-
-	// Path to the front controller (this file)
-	define('FCPATH', str_replace(SELF, '', __FILE__));
-
-	// Name of the "system folder"
-	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
-
-
-	// The path to the "application" folder
-	if (is_dir($application_folder))
-	{
-		define('APPPATH', $application_folder.'/');
-	}
-	else
-	{
-		if ( ! is_dir(BASEPATH.$application_folder.'/'))
-		{
-			exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
-		}
-
-		define('APPPATH', BASEPATH.$application_folder.'/');
-	}
-
-/*
- * --------------------------------------------------------------------
- * LOAD THE BOOTSTRAP FILE
- * --------------------------------------------------------------------
- *
- * And away we go...
- *
- */
-require_once BASEPATH.'core/CodeIgniter.php';
-
-/* End of file index.php */
-/* Location: ./index.php */
+</html>

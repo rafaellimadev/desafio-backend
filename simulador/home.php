@@ -90,6 +90,7 @@ class Home extends MY_Controller {
 		$return->itens = $itens;
 		$return->output('json');
 	}	
+	
 	public function addCarrinho()
 	{
 		$return = new AjaxResponse();
