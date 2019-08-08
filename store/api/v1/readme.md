@@ -32,21 +32,11 @@
 . Pronto, tudo certo para iniciarmos os testes
 
 #TESTES
-. Podemos realizar os testes de duas formas:
-    . Postman - É uma ferramenta com o objetivo de testar serviços REST.
-        . Abra a ferramenta Postman.
-        . Importe a collection que se encontra na pasta root do projeto e o environment
-        . Rode as requisições para acompanhar os resultados
-    . Sistema para simulação - Tomei a liberdade, de criar um sistema super básico, somente para testar o funcionamento da api.
-        . No navegador, definido o primeiro diretório como root, acesse http://localhost/simulador.
-        . Será exibida uma tela, com uma grid e alguns botões, simulando as ações do desafio. 
-        . Cada ação dessa tela se comunica com a api que criamos
 
+. Postman - É uma ferramenta com o objetivo de testar serviços REST.
+. Abra a ferramenta Postman.
+. Importe a collection que se encontra na pasta root do projeto e o environment
+. Rode as requisições para acompanhar os resultados
+    
 #Documentação
 https://documenter.getpostman.com/view/7909799/SVYrtecf
-
-#Tecnologias utilizadas no sistema simulador
-. PHP(7.3.6)
-. AngularJs
-. Codeigniter(2.2.6)
-. Bootstrap 4.0
